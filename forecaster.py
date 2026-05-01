@@ -10,11 +10,15 @@ def predict_future_consumption(df):
     """
     if df.empty: return 0.0
 
-    # --- 1. FILTRADO DE DATOS ERRÓNEOS ---
-    # Si un dato es 10 veces mayor al promedio, lo ignoramos (limpieza automática)
+    # --- 1. FILTRADO DE DATOS (Outliers e Inactividad) ---
+    # Solo nos interesan los momentos en que el dispositivo está encendido (> 0)
+    df = df[df['consumption'] > 0]
+    
+    if df.empty: return 0.0
+
+    # Si un dato es 20 veces mayor a la mediana, es un error del sensor (Outlier)
     median_val = df['consumption'].median()
-    if median_val > 0:
-        df = df[df['consumption'] < (median_val * 10)]
+    df = df[df['consumption'] < (median_val * 20)]
 
     if df.empty: return 0.0
 
