@@ -34,4 +34,4 @@ def predict_future_consumption(df):
     readings_in_30_days = (30 * 24 * 60 * 60) / 10
     total_predicted = predicted_val_per_reading * readings_in_30_days
     
-    return max(0, total_predicted / 1000.0) # Ajuste de escala si es necesario
+    return max(0, total_predicted) # El valor ya está en kWh
